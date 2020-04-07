@@ -13,8 +13,42 @@ import { HomePage } from './home.page';
     IonicModule,
     RouterModule.forChild([
       {
-        path: '',
-        component: HomePage
+        path: 'tabs',
+        component: HomePage,
+        children: [
+            {
+                path: 'main',
+                children: [
+                    {
+                        path: '',
+                        loadChildren: '../main/main.module#MainPageModule'
+                    }
+                ]
+            },
+            {
+                path: 'countries',
+                children: [
+                    {
+                        path: '',
+                        loadChildren: '../countries/countries.module#CountriesPageModule'
+                    },
+                    {
+                        path: ':countryId',
+                        loadChildren: '../countries/country-details/country-details.module#CountryDetailsPageModule'
+                    }
+                ]
+            },
+            {
+                path: '',
+                redirectTo: '/home/tabs/main',
+                pathMatch: 'full'
+            }
+        ]
+      },
+      {
+          path: '',
+          redirectTo: '/home/tabs/main',
+          pathMatch: 'full'
       }
     ])
   ],

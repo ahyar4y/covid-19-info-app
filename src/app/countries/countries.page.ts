@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from '../api.service';
 import { CountryService } from '../country.service';
+import { Country } from '../country.model';
 
 @Component({
   selector: 'app-countries',
@@ -9,20 +10,13 @@ import { CountryService } from '../country.service';
   styleUrls: ['./countries.page.scss'],
 })
 export class CountriesPage implements OnInit {
-  countryList: any[];
+  countries: Country[];
 
   constructor(private apiService: ApiService, private countryService: CountryService) { }
 
   ngOnInit() {
-    this.apiService.getCountries().subscribe(data => {
-      this.countryList = data.countries;
-      console.log(this.countryList);
-    });
-  }
-
-  addCountry(iso3) {
-    let country = this.countryList.find(e => e.iso3 === iso3);
-    this.countryService.setCountryName(country.name);
+    this.countryService.getCountryDetails();
+    this.countries = this.countryService.getCountries();
   }
 
 }

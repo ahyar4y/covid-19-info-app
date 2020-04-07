@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ApiService } from '../api.service';
 import { CountryService } from '../country.service';
+import { Country } from '../country.model';
 
 
 @Component({
@@ -10,20 +11,23 @@ import { CountryService } from '../country.service';
   styleUrls: ['./main.page.scss'],
 })
 export class MainPage implements OnInit {
-  globalConfirmed: number;
-  globalDeaths: number;
-  globalRecovered: number;
-  lastUpdate: any;
+  global = new Country(null, null, null, null, null, null); // ???
 
   constructor(private apiService: ApiService, private countryService: CountryService) { }
 
   ngOnInit() {
+    this.countryService.fetchCountries();
+
     this.apiService.getGlobalInfo().subscribe(data => {
-      this.globalConfirmed = data.confirmed.value;
-      this.globalDeaths = data.deaths.value;
-      this.globalRecovered = data.recovered.value;
-      this.lastUpdate = data.lastUpdate.slice(0, 10) + ', ' + data.lastUpdate.slice(11, 19);
-    })
+      this.global = new Country(
+        'global',
+        'global',
+        data.confirmed.value,
+        data.deaths.value,
+        data.recovered.value,
+        data.lastUpdate.slice(0, 10) + ', ' + data.lastUpdate.slice(11, 19)
+      );
+    });
   }
 
 }

@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ApiService } from 'src/app/api.service';
 import { CountryService } from 'src/app/country.service';
+import { Country } from '../../country.model';
 
 @Component({
   selector: 'app-country-details',
@@ -10,11 +11,7 @@ import { CountryService } from 'src/app/country.service';
   styleUrls: ['./country-details.page.scss'],
 })
 export class CountryDetailsPage implements OnInit {
-  selectedCountryName: string;
-  selectedCountryConfirmed: number;
-  selectedCountryDeaths: number;
-  selectedCountryRecovered: number;
-  lastUpdate: string;
+  selectedCountry = new Country(null, null, null, null, null, null);
 
   constructor(private activatedRoute: ActivatedRoute, private apiService: ApiService, private countryService: CountryService) { }
 
@@ -26,13 +23,9 @@ export class CountryDetailsPage implements OnInit {
 
       const countryId = paramMap.get('countryId');
 
-      this.apiService.getCountry(countryId).subscribe(data => {
-        this.selectedCountryName = this.countryService.getCountryName();
-        this.selectedCountryConfirmed = data.confirmed.value;
-        this.selectedCountryDeaths = data.deaths.value;
-        this.selectedCountryRecovered = data.recovered.value;
-        this.lastUpdate = data.lastUpdate.slice(0, 10) + ', ' + data.lastUpdate.slice(11, 19);
-      });
+      const index = this.countryService.getCountries().map(e => e.name).indexOf(countryId);
+
+      this.selectedCountry = this.countryService.getCountry(index);
     });
   }
 

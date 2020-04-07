@@ -9,7 +9,7 @@
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor="let country of countryList" (click)="addCountry(country.iso3)" [routerLink]="['/', 'home', 'tabs', 'countries', country.iso3]">
+    <ion-item *ngFor="let country of countries" [routerLink]="['/', 'home', 'tabs', 'countries', country.name]">
       <ion-label>{{ country.name }}</ion-label>
     </ion-item>
   </ion-list>

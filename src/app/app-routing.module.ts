@@ -12,6 +12,10 @@ const routes: Routes = [
     path: 'countries',
     loadChildren: () => import('./countries/countries.module').then( m => m.CountriesPageModule)
   },
+  {
+    path: 'bookmark',
+    loadChildren: () => import('./bookmark/bookmark.module').then( m => m.BookmarkPageModule)
+  },
 ];
 
 @NgModule({

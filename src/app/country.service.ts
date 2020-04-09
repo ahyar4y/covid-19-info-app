@@ -20,7 +20,8 @@ export class CountryService {
           null,
           null,
           null,
-          null
+          null,
+          false
           ));
       }
       // console.log(this.countryList);
@@ -46,4 +47,7 @@ export class CountryService {
     return this.countryList[index];
   }
 
+  updateCountry(index, value) {
+    this.countryList[index].isInBookmark = value;
+  }
 }

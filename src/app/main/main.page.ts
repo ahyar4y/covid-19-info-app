@@ -11,7 +11,7 @@ import { Country } from '../country.model';
   styleUrls: ['./main.page.scss'],
 })
 export class MainPage implements OnInit {
-  global = new Country(null, null, null, null, null, null); // ???
+  global = new Country(null, null, null, null, null, null, false); // ???
 
   constructor(private apiService: ApiService, private countryService: CountryService) { }
 
@@ -25,7 +25,8 @@ export class MainPage implements OnInit {
         data.confirmed.value,
         data.deaths.value,
         data.recovered.value,
-        data.lastUpdate.slice(0, 10) + ', ' + data.lastUpdate.slice(11, 19)
+        data.lastUpdate.slice(0, 10) + ', ' + data.lastUpdate.slice(11, 19),
+        false
       );
     });
   }

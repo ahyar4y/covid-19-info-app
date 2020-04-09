@@ -5,6 +5,7 @@ export class Country {
         public confirmed: number,
         public deaths: number,
         public recovered: number,
-        public lastUpdate: string
+        public lastUpdate: string,
+        public isInBookmark: boolean
     ) {}
 }

@@ -1,11 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home/tabs/countries"></ion-back-button>
+      <!--<ion-back-button *ngIf="!selectedCountry.isInBookmark" defaultHref="/home/tabs/countries"></ion-back-button>-->
+      <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>Country Details</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="addToBookmark()">
+      <ion-button *ngIf="!selectedCountry.isInBookmark" (click)="addToBookmark()">
+        <ion-icon name="bookmark-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="selectedCountry.isInBookmark" (click)="removeFromBookmark()">
         <ion-icon name="bookmark"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -25,6 +29,7 @@
             <p>Deaths: {{ selectedCountry.deaths }}</p>
             <p>Recovered: {{ selectedCountry.recovered }}</p>
             <p>Last Update (UTC): {{ selectedCountry.lastUpdate }}</p>
+            <p>{{ selectedCountry.isInBookmark }}</p>
           </ion-card-content>
         </ion-card>
       </ion-col>

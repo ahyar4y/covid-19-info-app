@@ -20,7 +20,6 @@ export class CountriesPage implements OnInit {
     private alertController: AlertController) { }
 
   ngOnInit() {
-    this.countryService.getCountryDetails();
     this.countries = this.countryService.getCountries();
   }
 

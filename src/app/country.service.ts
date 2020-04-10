@@ -11,8 +11,8 @@ export class CountryService {
 
   constructor(private apiService: ApiService) { }
 
-  fetchCountries() {
-    this.apiService.getCountries().subscribe(data => {
+  async fetchCountries() {
+    this.apiService.getCountries().subscribe(async data => {
       for (const element of data.countries) {
         this.countryList.push(new Country(
           element.iso3,
@@ -24,7 +24,7 @@ export class CountryService {
           false
           ));
       }
-      // console.log(this.countryList);
+      console.log(this.countryList);
     });
   }
 
@@ -32,15 +32,13 @@ export class CountryService {
     return this.countryList;
   }
 
-  getCountryDetails() {
-    for (const element of this.countryList) {
-      this.apiService.getCountry(element.name).subscribe(data => {
-        element.confirmed = data.confirmed.value;
-        element.deaths = data.deaths.value;
-        element.recovered = data.recovered.value;
-        element.lastUpdate = data.lastUpdate.slice(0, 10) + ', ' + data.lastUpdate.slice(11, 19);
-      });
-    }
+  async getCountryDetails(countryId, index) {
+    this.apiService.getCountry(countryId).subscribe(async data => {
+      this.countryList[index].confirmed = data.confirmed.value;
+      this.countryList[index].deaths = data.deaths.value;
+      this.countryList[index].recovered = data.recovered.value;
+      this.countryList[index].lastUpdate = data.lastUpdate.slice(0, 10) + ', ' + data.lastUpdate.slice(11, 19);
+    });
   }
 
   getCountry(index) {

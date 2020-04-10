@@ -17,8 +17,11 @@ export class MainPage implements OnInit {
 
   ngOnInit() {
     this.countryService.fetchCountries();
+    this.showInfo();
+  }
 
-    this.apiService.getGlobalInfo().subscribe(data => {
+  async showInfo() {
+    this.apiService.getGlobalInfo().subscribe(async data => {
       this.global = new Country(
         'global',
         'global',

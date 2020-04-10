@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
 
 import { CountryService } from 'src/app/country.service';
 import { BookmarkService } from 'src/app/bookmark.service';
@@ -17,8 +18,8 @@ export class CountryDetailsPage implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private toastController: ToastController,
     private alertController: AlertController,
-    private router: Router,
     private countryService: CountryService,
     private bookmarkService: BookmarkService) { }
 
@@ -32,27 +33,21 @@ export class CountryDetailsPage implements OnInit {
 
       this.index = this.countryService.getCountries().map(e => e.name).indexOf(countryId);
 
+      this.countryService.getCountryDetails(countryId, this.index);
       this.selectedCountry = this.countryService.getCountry(this.index);
     });
   }
 
   addToBookmark() {
-    this.bookmarkService.addToBookmark(this.selectedCountry);
     this.selectedCountry.isInBookmark = true;
     this.countryService.updateCountry(this.index, true);
+    this.bookmarkService.addToBookmark(this.selectedCountry.name);
 
-    this.alertController.create({
-      header: 'Bookmark',
+    this.toastController.create({
       message: 'Country added to Bookmark',
-      buttons: [
-        {
-          text: 'Ok',
-          role: 'cancel'
-        }
-      ]
-    }).then(alertEl => {
-      alertEl.present();
-    });
+      duration: 2000,
+      color: 'primary'
+    }).then(toast => toast.present());
   }
 
   removeFromBookmark() {
@@ -71,6 +66,11 @@ export class CountryDetailsPage implements OnInit {
             this.selectedCountry.isInBookmark = false;
             this.countryService.updateCountry(this.index, false);
             // this.router.navigate(['/home/tabs/countries/' + this.selectedCountry.name]);
+            this.toastController.create({
+              message: 'Country removed from Bookmark',
+              duration: 2000,
+              color: 'primary'
+            }).then(toast => toast.present());
           }
         }
       ]

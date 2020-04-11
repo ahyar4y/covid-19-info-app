@@ -5,6 +5,9 @@
     </ion-buttons>
     <ion-title>Countries</ion-title>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar [(ngModel)]="item" (ionChange)="filterItems()"></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>

@@ -17,8 +17,8 @@ export class UserService {
   userLogout() {
     if (this.isUserLoggedIn()) {
       this.user.loggedIn = false;
-      this.user.id = -1;
-      this.user.username = '';
+      this.user.id = null;
+      this.user.username = 'guest';
     }
   }
 

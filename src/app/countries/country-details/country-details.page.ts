@@ -35,13 +35,14 @@ export class CountryDetailsPage implements OnInit {
 
       this.countryService.getCountryDetails(countryId, this.index);
       this.selectedCountry = this.countryService.getCountry(this.index);
+      console.log(this.selectedCountry);
     });
   }
 
   addToBookmark() {
     this.selectedCountry.isInBookmark = true;
     this.countryService.updateCountry(this.index, true);
-    this.bookmarkService.addToBookmark(this.selectedCountry.name);
+    this.bookmarkService.addToBookmark(this.selectedCountry.name, this.index);
 
     this.toastController.create({
       message: 'Country added to Bookmark',
@@ -62,9 +63,9 @@ export class CountryDetailsPage implements OnInit {
         {
           text: 'Yes',
           handler: () => {
-            this.bookmarkService.removeFromBookmark(this.selectedCountry);
             this.selectedCountry.isInBookmark = false;
             this.countryService.updateCountry(this.index, false);
+            this.bookmarkService.removeFromBookmark(this.selectedCountry.name, this.index);
             // this.router.navigate(['/home/tabs/countries/' + this.selectedCountry.name]);
             this.toastController.create({
               message: 'Country removed from Bookmark',
@@ -74,9 +75,7 @@ export class CountryDetailsPage implements OnInit {
           }
         }
       ]
-    }).then(alertEl => {
-      alertEl.present();
-    });
+    }).then(alertEl => alertEl.present());
   }
 
 }

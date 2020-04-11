@@ -1,4 +1,4 @@
-# COVID-19 Mobile Information App using Ionic 4
+# COVID-19 Information App using Ionic 4
 
 This is my final project for Mobile Programming subject (2019/2)
 

@@ -48,4 +48,15 @@ export class CountryService {
   updateCountry(index, value) {
     this.countryList[index].isInBookmark = value;
   }
+
+  filterCountry(item) {
+    return this.countryList.filter(e => {
+      return e.name.toLowerCase().indexOf(item.toLowerCase()) > -1;
+    });
+  }
+
+  resetCountries() {
+    this.countryList = [];
+    this.fetchCountries();
+  }
 }

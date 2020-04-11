@@ -5,6 +5,7 @@ import { Storage } from '@ionic/Storage';
 
 import { PostProvider } from '../../providers/post-provider';
 import { UserService } from '../user.service';
+import { BookmarkService } from '../bookmark.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginPage implements OnInit {
     private toastController: ToastController,
     private storage: Storage,
     private postProvider: PostProvider,
-    private userService: UserService
+    private userService: UserService,
+    private bookmarkService: BookmarkService
   ) { }
 
   ngOnInit() {
@@ -40,6 +42,7 @@ export class LoginPage implements OnInit {
         if (data.success) {
           this.storage.set('session_storage', data.result);
           this.userService.userLogin(data.id, this.username);
+          this.bookmarkService.loadBookmark(this.userService.getUsername());
           this.router.navigate(['/']);
           await this.toastController.create({
             message: 'Welcome!',

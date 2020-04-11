@@ -13,6 +13,7 @@ import { Country } from '../country.model';
 })
 export class CountriesPage implements OnInit {
   countries: Country[];
+  item: string;
 
   constructor(
     private countryService: CountryService,
@@ -21,6 +22,10 @@ export class CountriesPage implements OnInit {
 
   ngOnInit() {
     this.countries = this.countryService.getCountries();
+  }
+
+  filterItems() {
+    this.countries = this.countryService.filterCountry(this.item);
   }
 
 }

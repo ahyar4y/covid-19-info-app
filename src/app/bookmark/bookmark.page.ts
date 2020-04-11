@@ -15,7 +15,6 @@ export class BookmarkPage implements OnInit, OnDestroy {
   constructor(private bookmarkService: BookmarkService, private userService: UserService) { }
 
   ngOnInit() {
-    this.bookmarkService.loadBookmark(this.userService.getUsername());
     this.countryList = this.bookmarkService.getBookmark();
     console.log(this.countryList);
   }

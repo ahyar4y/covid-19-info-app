@@ -13,7 +13,7 @@ export class BookmarkService {
 
   constructor(private postProvider: PostProvider, private userService: UserService, private countryService: CountryService) { }
 
-  addToBookmark(countryId){
+  addToBookmark(countryId, index) {
     return new Promise(resolve => {
       const body = {
         action: 'addBookmark',
@@ -22,12 +22,13 @@ export class BookmarkService {
       };
 
       this.postProvider.postData(body, 'process-api.php').subscribe(data => {
+        this.countryList.push(this.countryService.getCountry(index));
         console.log('added to bookmark');
       });
     });
   }
 
-  removeFromBookmark(countryId) {
+  removeFromBookmark(countryId, index) {
     const body = {
       action: 'removeBookmark',
       username: this.userService.getUsername(),
@@ -35,9 +36,8 @@ export class BookmarkService {
     };
 
     this.postProvider.postData(body, 'process-api.php').subscribe(data => {
-      this.countryList = this.countryList.filter(e => {
-        return e !== countryId;
-      });
+      this.countryList = this.countryList.filter(e => e.name !== this.countryService.getCountry(index).name);
+      console.log(this.countryList);
     });
   }
 
@@ -48,9 +48,11 @@ export class BookmarkService {
         username: userId
       };
 
+      this.countryList = [];
       this.postProvider.postData(body, 'process-api.php').subscribe(async data => {
         for (let el of data.result) {
           let index = this.countryService.getCountries().map(e => e.name).indexOf(el.country);
+          this.countryService.updateCountry(index, true);
           this.countryList.push(this.countryService.getCountry(index));
         }
         resolve(true);

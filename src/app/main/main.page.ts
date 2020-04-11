@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController, ToastController } from '@ionic/angular';
 
 import { ApiService } from '../api.service';
+import { BookmarkService } from '../bookmark.service';
 import { CountryService } from '../country.service';
-import { Country } from '../country.model';
+import { UserService } from '../user.service';
 
+import { Country } from '../country.model';
 
 @Component({
   selector: 'app-main',
@@ -13,7 +17,15 @@ import { Country } from '../country.model';
 export class MainPage implements OnInit {
   global = new Country(null, null, null, null, null, null, false); // ???
 
-  constructor(private apiService: ApiService, private countryService: CountryService) { }
+  constructor(
+    private router: Router,
+    private apiService: ApiService,
+    private bookmarkService: BookmarkService,
+    private countryService: CountryService,
+    private userService: UserService,
+    private alertController: AlertController,
+    private toastController: ToastController
+  ) { }
 
   ngOnInit() {
     this.countryService.fetchCountries();
@@ -32,6 +44,45 @@ export class MainPage implements OnInit {
         false
       );
     });
+  }
+
+  isUserLoggedIn() {
+    return this.userService.isUserLoggedIn();
+  }
+
+  getUser() {
+    return this.userService.getUsername();
+  }
+
+  login() {
+    this.router.navigate(['/login']);
+  }
+
+  logout() {
+    this.alertController.create({
+      header: 'Logout',
+      message: 'Are you sure you want to logout?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel'
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.userService.userLogout();
+            this.countryService.resetCountries();
+            this.bookmarkService.loadBookmark(this.userService.getUsername());
+
+            this.toastController.create({
+              message: 'Logged out!',
+              duration: 2000,
+              color: 'primary'
+            }).then(toast => toast.present());
+          }
+        }
+      ]
+    }).then(alertEl => alertEl.present());
   }
 
 }

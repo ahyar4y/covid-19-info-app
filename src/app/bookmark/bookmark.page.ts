@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { UserService } from '../user.service';
 import { BookmarkService } from '../bookmark.service';
+import { UserService } from '../user.service';
+
 import { Country } from '../country.model';
 
 @Component({

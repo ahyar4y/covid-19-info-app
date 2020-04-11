@@ -25,11 +25,10 @@
             <ion-card-title>{{ selectedCountry.name }}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <p>Confirmed: {{ selectedCountry.confirmed }}</p>
-            <p>Deaths: {{ selectedCountry.deaths }}</p>
-            <p>Recovered: {{ selectedCountry.recovered }}</p>
-            <p>Last Update (UTC): {{ selectedCountry.lastUpdate }}</p>
-            <p>{{ selectedCountry.isInBookmark }}</p>
+            <p><ion-label color="warning">Confirmed: {{ selectedCountry.confirmed | number }}</ion-label></p>
+            <p><ion-label color="danger">Deaths: {{ selectedCountry.deaths | number }}</ion-label></p>
+            <p><ion-label color="success">Recovered: {{ selectedCountry.recovered | number }}</ion-label></p>
+            <p><ion-label>Last Update (UTC): {{ selectedCountry.lastUpdate }}</ion-label></p>
           </ion-card-content>
         </ion-card>
       </ion-col>

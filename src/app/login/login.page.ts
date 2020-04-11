@@ -4,8 +4,9 @@ import { ToastController } from '@ionic/angular';
 import { Storage } from '@ionic/Storage';
 
 import { PostProvider } from '../../providers/post-provider';
-import { UserService } from '../user.service';
+
 import { BookmarkService } from '../bookmark.service';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-login',

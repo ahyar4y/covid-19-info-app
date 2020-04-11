@@ -3,8 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 
-import { CountryService } from 'src/app/country.service';
 import { BookmarkService } from 'src/app/bookmark.service';
+import { CountryService } from 'src/app/country.service';
+import { UserService } from 'src/app/user.service';
+
 import { Country } from '../../country.model';
 
 @Component({
@@ -18,10 +20,13 @@ export class CountryDetailsPage implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private toastController: ToastController,
     private alertController: AlertController,
+    private bookmarkService: BookmarkService,
     private countryService: CountryService,
-    private bookmarkService: BookmarkService) { }
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.paramMap.subscribe(paramMap => {
@@ -40,15 +45,34 @@ export class CountryDetailsPage implements OnInit {
   }
 
   addToBookmark() {
-    this.selectedCountry.isInBookmark = true;
-    this.countryService.updateCountry(this.index, true);
-    this.bookmarkService.addToBookmark(this.selectedCountry.name, this.index);
+    if (this.userService.getUsername() === 'guest') {
+      this.alertController.create({
+        header: 'Alert',
+        message: 'You are not logged in!',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel'
+          },
+          {
+            text: 'Login',
+            handler: () => {
+              this.router.navigate(['/login']);
+            }
+          }
+        ]
+      }).then(alertEl => alertEl.present());
+    } else {
+      this.selectedCountry.isInBookmark = true;
+      this.countryService.updateCountry(this.index, true);
+      this.bookmarkService.addToBookmark(this.selectedCountry.name, this.index);
 
-    this.toastController.create({
-      message: 'Country added to Bookmark',
-      duration: 2000,
-      color: 'primary'
-    }).then(toast => toast.present());
+      this.toastController.create({
+        message: 'Country added to Bookmark',
+        duration: 2000,
+        color: 'primary'
+      }).then(toast => toast.present());
+    }
   }
 
   removeFromBookmark() {

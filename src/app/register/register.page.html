@@ -11,7 +11,8 @@
   <ion-list>
     <ion-item>
       <ion-label position="floating">Username</ion-label>
-      <ion-input type="text"  [(ngModel)]="username" placeholder="username"></ion-input>
+      <ion-input *ngIf="username === undefined" type="text"  [(ngModel)]="username" placeholder="username"></ion-input>
+      <ion-input *ngIf="username !== undefined" type="text"  [(ngModel)]="username" placeholder="username" disabled></ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="floating">Password</ion-label>
@@ -22,8 +23,9 @@
       <ion-input type="password" [(ngModel)]="confirmPassword" placeholder="confirm password"></ion-input>
     </ion-item>
   </ion-list>
-  <div>
+  <div *ngIf="username === undefined">
     <ion-button expand="full" padding color="primary" (click)="register()">Register</ion-button>
     <ion-button expand="full" padding color="secondary" fill="outline" (click)="login()">Sign In</ion-button>
   </div>
+  <ion-button *ngIf="username !== undefined" expand="full" padding color="primary" (click)="editUser()">Update</ion-button>
 </ion-content>

@@ -85,4 +85,8 @@ export class MainPage implements OnInit {
     }).then(alertEl => alertEl.present());
   }
 
+  editUser(username) {
+    this.router.navigate(['/register/' + username]);
+  }
+
 }

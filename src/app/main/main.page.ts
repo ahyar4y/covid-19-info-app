@@ -16,6 +16,7 @@ import { Country } from '../country.model';
 })
 export class MainPage implements OnInit {
   global = new Country(null, null, null, null, null, null, false); // ???
+  graph: any;
 
   constructor(
     private router: Router,
@@ -30,6 +31,7 @@ export class MainPage implements OnInit {
   ngOnInit() {
     this.countryService.fetchCountries();
     this.showInfo();
+    this.showGraph();
   }
 
   async showInfo() {
@@ -43,6 +45,18 @@ export class MainPage implements OnInit {
         data.lastUpdate.slice(0, 10) + ', ' + data.lastUpdate.slice(11, 19),
         false
       );
+    });
+  }
+
+  async showGraph() {
+    this.apiService.getGlobalGraph().subscribe(async data => {
+      const reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        this.graph = reader.result;
+      }, false);
+
+      if (data) { reader.readAsDataURL(data); }
     });
   }
 
